@@ -7,6 +7,7 @@
 # 
 # Visit http://laquadrature.net for informations about Net Neutrality.
 
+# Don't mess with the comments, they are used when running the script
 PORTS=(80 443 8080 # web
     5060 5061 # sip
     25 # smtp
@@ -22,6 +23,9 @@ PORTS=(80 443 8080 # web
     43 # whois
     23 992 # telnet(s)
 )
+
+# Timeout, in seconds, after which the port is considered as 'closed'
+TIMEOUT=2
 
 # Non-blocked ports
 PASS=()
@@ -83,11 +87,11 @@ echo
 if command -v curl >/dev/null 2>&1
 then
     BACKEND=curl
-    GET_CMD="curl --connect-timeout 2"
+    GET_CMD="curl --connect-timeout $TIMEOUT"
 elif command -v wget >/dev/null 2>&1
 then
     BACKEND=wget
-    GET_CMD="wget --tries 1 --connect-timeout 2 -O -"
+    GET_CMD="wget --tries 1 --connect-timeout $TIMEOUT -O -"
     echo "$(red Warning): curl not found, falling back on wget..." 1>&2
     echo "Consider switching to curl if you want to distinguish between" 1>&2
     echo "'connection refused' and 'timeout'" 1>&2
