@@ -1,0 +1,14 @@
+nncheck is a Network Neutrality Checker.
+
+nncheck tries to establish outgoing TCP connections on common ports,
+and checks whether they are blocked (for instance, your mobile ISP
+could block the SIP port, 5060).
+
+If you find that your ISP (especially a mobile one) is blocking some
+ports, you can discuss it on our irc channel, #laquadrature on
+irc.freenode.net.
+
+If you live in Europe, you can also visit http://respectmynet.eu :
+first check if your country/ISP is already on the list (in which case
+you can confirm and comment). If it's not, you can create a new
+report.
