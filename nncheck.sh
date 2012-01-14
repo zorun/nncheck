@@ -54,12 +54,17 @@ print_status() {
 }
 
 pass() {
-    print_status $1 "$(green "open  ")  → $(grep -w $p "$0" | cut -d '#' -f 2)"
+    print_status $1 "$(green "open   ")  → $(grep -w $p "$0" | cut -d '#' -f 2)"
     PASS+=($1)
 }
 
-fail() {
-    print_status $1 "$(red closed)  → $(grep -w $p "$0" | cut -d '#' -f 2)"
+closed() {
+    print_status $1 "$(red "closed ")  → $(grep -w $p "$0" | cut -d '#' -f 2)"
+    FAIL+=($1)
+}
+
+timeout() {
+    print_status $1 "$(red timeout)  → $(grep -w $p "$0" | cut -d '#' -f 2)"
     FAIL+=($1)
 }
 
@@ -79,9 +84,12 @@ elif command -v wget >/dev/null 2>&1
 then
     BACKEND=wget
     GET_CMD="wget --tries 1 --connect-timeout 2 -O -"
-    echo "Warning: curl not found, falling back on wget..." 1>&2
+    echo "$(red Warning): curl not found, falling back on wget..." 1>&2
+    echo "Consider switching to curl if you want to distinguish between" 1>&2
+    echo "'connection refused' and 'timeout'" 1>&2
+    echo 1>&2
 else
-    echo "Error: neither curl nor wget is available..." 1>&2
+    echo "$(red Error): neither curl nor wget is available." 1>&2
     echo "Please install either one (curl is preferred)" 1>&2
     exit 1
 fi
@@ -91,13 +99,23 @@ echo -e "[*] Testing $(bold ${#PORTS[*]} ports) for outgoing connection..."
 
 for p in ${PORTS[*]}
 do
-    $GET_CMD "$(responder $p)" >/dev/null 2>&1 \
-        && pass $p || fail $p 
+    $GET_CMD "$(responder $p)" >/dev/null 2>&1
+    case $? in
+        0) pass $p # Okay
+            ;;
+        4) closed $p # wget error, whatever that means…
+            ;;
+        7) closed $p # curl error for connection refused
+            ;;
+        28) timeout $p # curl error timeout
+            ;;
+        *) closed $p
+    esac
 done
 
 let "score = 100 * ${#PASS[*]} / ${#PORTS[*]}"
 
-echo -e "[*] $(bold Summary): $(bold ${#PASS[*]}) $(green open) / $(bold ${#FAIL[*]}) $(red closed)"
+echo -e "[*] $(bold Summary): $(bold ${#PASS[*]}) $(green open) / $(bold ${#FAIL[*]}) $(red failed)"
 echo -e "[*] $(bold NN score): $(color_score ${score})"
 
 echo
