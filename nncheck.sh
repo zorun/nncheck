@@ -54,12 +54,12 @@ print_status() {
 }
 
 pass() {
-    print_status $1 "$(green open)"
+    print_status $1 "$(green "open  ")  → $(grep -w $p "$0" | cut -d '#' -f 2)"
     PASS+=($1)
 }
 
 fail() {
-    print_status $1 "$(red closed)"
+    print_status $1 "$(red closed)  → $(grep -w $p "$0" | cut -d '#' -f 2)"
     FAIL+=($1)
 }
 
