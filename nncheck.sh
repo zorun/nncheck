@@ -69,11 +69,29 @@ echo "Visit http://laquadrature.net if you don't know what that means."
 echo "I'll now try to establish outgoing connections on various TCP ports!"
 echo
 
+
+# we use curl by default, or wget if curl is not found
+if command -v curl >/dev/null 2>&1
+then
+    BACKEND=curl
+    GET_CMD="curl --connect-timeout 2"
+elif command -v wget >/dev/null 2>&1
+then
+    BACKEND=wget
+    GET_CMD="wget --tries 1 --connect-timeout 2 -O -"
+    echo "Warning: curl not found, falling back on wget..." 1>&2
+else
+    echo "Error: neither curl nor wget is available..." 1>&2
+    echo "Please install either one (curl is preferred)" 1>&2
+    exit 1
+fi
+
+
 echo -e "[*] Testing $(bold ${#PORTS[*]} ports) for outgoing connection..."
 
 for p in ${PORTS[*]}
 do
-    curl --connect-timeout 2 "$(responder $p)" >/dev/null 2>&1 \
+    $GET_CMD "$(responder $p)" >/dev/null 2>&1 \
         && pass $p || fail $p 
 done
 
