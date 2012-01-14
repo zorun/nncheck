@@ -53,18 +53,22 @@ print_status() {
     echo -e "[**] Outbound port $(bold "$(printf '%-5d' $1)") is $2"
 }
 
+port_info() {
+    echo "→ $(grep -w $1 "$0" | cut -d '#' -f 2)"
+}
+
 pass() {
-    print_status $1 "$(green "open   ")  → $(grep -w $p "$0" | cut -d '#' -f 2)"
+    print_status $1 "$(green "open   ")  $(port_info $1)"
     PASS+=($1)
 }
 
 closed() {
-    print_status $1 "$(red "closed ")  → $(grep -w $p "$0" | cut -d '#' -f 2)"
+    print_status $1 "$(red "closed ")  $(port_info $1)"
     FAIL+=($1)
 }
 
 timeout() {
-    print_status $1 "$(red timeout)  → $(grep -w $p "$0" | cut -d '#' -f 2)"
+    print_status $1 "$(red timeout)  $(port_info $1)"
     FAIL+=($1)
 }
 
