@@ -1,8 +1,15 @@
+About nncheck
+=============
+
 nncheck is a Network Neutrality Checker.
 
 nncheck tries to establish outgoing TCP connections on common ports,
 and checks whether they are blocked (for instance, your mobile ISP
-could block the SIP port, 5060).
+might block the SIP port, 5060).
+
+
+Report Net Neutrality violations
+================================
 
 If you find that your ISP (especially a mobile one) is blocking some
 ports, you can discuss it on our irc channel, #laquadrature on
@@ -12,3 +19,40 @@ If you live in Europe, you can also visit http://respectmynet.eu :
 first check if your country/ISP is already on the list (in which case
 you can confirm and comment). If it's not, you can create a new
 report.
+
+
+Adding ports to test
+====================
+
+Feel free to propose new ports to check!
+
+Please note, though, that each port might take up to 2 seconds to
+check (in case the port is blocked but the connection is simply
+dropped, not closed -- yeah, some ISPs are evil --, there is a
+2-seconds timeout)
+
+
+Responder
+=========
+
+To check whether an outgoing port is blocked, we use La Quadrature du
+Net's responder, available at:
+  
+    http://responder.lqdn.fr:<port> (eg. http://responder.lqdn.fr:6667 )
+
+There also is a text version at:
+
+    http://responder.lqdn.fr:<port>/simple.php
+
+
+TODO
+====
+
+Bash is cool, but not everybody is able to run bash script
+(eg. Windows/iPhone/Android user)
+
+Having such a probing tool in Javascript would be fantastic, as it
+would allow any mobile device to test its data connection.
+
+I haven't found such a project yet, probably because it's not easy to
+initiate a TCP connection on an arbitrary port in JS.
