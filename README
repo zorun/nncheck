@@ -7,6 +7,22 @@ nncheck tries to establish outgoing TCP connections on common ports,
 and checks whether they are blocked (for instance, your mobile ISP
 might block the SIP port, 5060).
 
+The state of a port can be:
+
+* "open", which means that the connection to the responder was
+  successful;
+
+* "closed", which means that somebody (probably your ISP) has
+  terminated the connection;
+
+* "timeout" (only when using curl), which means that the responder has
+  not replied within a few seconds (2 by default). Usually, ISPs do
+  not terminate the connection, but rather drop it without noticing
+  the initiater, leading to a timeout. It should be safe to consider
+  this as a blocked port, but a slow connection might trigger
+  false-positive. If you want to be certain, try running the script
+  again or change the TIMEOUT variable in the script.
+  
 
 Report Net Neutrality violations
 ================================
@@ -19,6 +35,9 @@ If you live in Europe, you can also visit http://respectmynet.eu :
 first check if your country/ISP is already on the list (in which case
 you can confirm and comment). If it's not, you can create a new
 report.
+
+Please double-check that your report is accurate (try running the
+script multiple time, raising the TIMEOUT value…)
 
 
 Adding ports to test
