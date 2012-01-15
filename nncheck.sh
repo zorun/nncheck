@@ -97,15 +97,15 @@ responder() {
 # Color management
 
 red() {
-    [ "$USE_COLOR" = "yes" ] && echo "\e[1;31m$@\e[0m" || echo "$@"
+    [[ $USE_COLOR = "yes" ]] && echo "\e[1;31m$@\e[0m" || echo "$@"
 }
 
 green() {
-    [ "$USE_COLOR" = "yes" ] && echo "\e[1;32m$@\e[0m" || echo "$@"
+    [[ $USE_COLOR = "yes" ]] && echo "\e[1;32m$@\e[0m" || echo "$@"
 }
 
 bold() {
-    [ "$USE_COLOR" = "yes" ] && echo "\e[1m$@\e[0m" || echo "$@"
+    [[ $USE_COLOR = "yes" ]] && echo "\e[1m$@\e[0m" || echo "$@"
 }
 
 color_score() {
