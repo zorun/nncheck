@@ -92,7 +92,7 @@ elif command -v wget >/dev/null 2>&1
 then
     BACKEND=wget
     GET_CMD="wget --tries 1 --connect-timeout $TIMEOUT -O -"
-    echo "$(red Warning): curl not found, falling back on wget..." 1>&2
+    echo -e "$(red Warning): curl not found, falling back on wget..." 1>&2
     echo "Consider switching to curl if you want to distinguish between" 1>&2
     echo "'connection refused' and 'timeout'" 1>&2
     echo 1>&2
