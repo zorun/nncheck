@@ -24,8 +24,56 @@ PORTS=(80 443 8080 # web
     23 992 # telnet(s)
 )
 
-# Timeout, in seconds, after which the port is considered as 'closed'
+# Timeout, in seconds, after which the port is considered as 'timeout'
 TIMEOUT=2
+
+# Use colors by default?
+USE_COLOR="yes"
+
+# Force wget instead of curl? (bad idea)
+FORCE_WGET="no"
+
+
+echo "This is NN check, the Network Neutrality checker."
+echo "Visit http://laquadrature.net if you don't know what that means."
+echo
+
+
+show_help() {
+    echo "nncheck tries to establish outgoing TCP connections on common ports,"
+    echo "and checks whether they are blocked (for instance, your mobile ISP"
+    echo "might block the SIP port)."
+    echo
+    echo "usage: $0 [options]"
+    echo "where valid options are:"
+    echo "   -h|--help                         This help"
+    echo "   -t <timeout>|--timeout <timeout>  Set the timeout in seconds (default: $TIMEOUT)"
+    echo "   --no-color                        Disable nice colored output"
+    echo "   --force-wget                      Force using wget instead of curl"
+    echo "                                     (not recommended)"
+    exit 0
+}
+
+weird_option() {
+    echo -e "Error: option '$1' unrecognized"
+    echo "Try $0 -h"
+    exit 1
+}
+
+
+# Parse options
+while [[ $1 ]]
+do
+    case "$1" in
+        --help|-h) show_help;;
+        --no-color) USE_COLOR="no";;
+        --force-wget) FORCE_WGET="yes";;
+        --timeout|-t) TIMEOUT="$2"; shift;;
+        *) weird_option "$1"
+    esac
+    shift
+done
+
 
 # curl is used by default
 CURL_CMD="curl --connect-timeout $TIMEOUT"
@@ -39,26 +87,33 @@ PASS=()
 # Blocked ports
 FAIL=()
 
+
 # Thanks to La Quadrature du Net for this awesome simple responder <3
 responder() {
     echo "http://responder.lqdn.fr:${1}/simple.php"
 }
 
+
+# Color management
+
 red() {
-    echo "\e[1;31m$@\e[0m"
+    [ "$USE_COLOR" = "yes" ] && echo "\e[1;31m$@\e[0m" || echo "$@"
 }
 
 green() {
-    echo "\e[1;32m$@\e[0m"
+    [ "$USE_COLOR" = "yes" ] && echo "\e[1;32m$@\e[0m" || echo "$@"
 }
 
 bold() {
-    echo "\e[1m$@\e[0m"
+    [ "$USE_COLOR" = "yes" ] && echo "\e[1m$@\e[0m" || echo "$@"
 }
 
 color_score() {
     [[ "$1" -eq 100 ]] && echo "$(green ${1}%)" || echo "$(red ${1}%)"
 }
+
+
+# Pretty-printing
 
 print_status() {
     echo -e "[**] Outbound port $(bold "$(printf '%-5d' $1)") is $2"
@@ -84,8 +139,6 @@ timeout() {
 }
 
 
-echo "This is NN check, the Network Neutrality checker."
-echo "Visit http://laquadrature.net if you don't know what that means."
 echo "I'll now try to establish outgoing connections on various TCP ports!"
 echo
 
