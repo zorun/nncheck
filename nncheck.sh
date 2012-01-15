@@ -25,7 +25,7 @@ PORTS=(80 443 8080 # web
 )
 
 # Timeout, in seconds, after which the port is considered as 'timeout'
-TIMEOUT=2
+TIMEOUT=3
 
 # Use colors by default?
 USE_COLOR="yes"
