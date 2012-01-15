@@ -144,7 +144,7 @@ echo
 
 
 # we use curl by default, or wget if curl is not found
-if command -v curl >/dev/null 2>&1
+if command -v curl >/dev/null 2>&1 && [[ $FORCE_WGET != "yes" ]]
 then
     BACKEND=curl
     GET_CMD="$CURL_CMD"
