@@ -27,6 +27,13 @@ PORTS=(80 443 8080 # web
 # Timeout, in seconds, after which the port is considered as 'closed'
 TIMEOUT=2
 
+# curl is used by default
+CURL_CMD="curl --connect-timeout $TIMEOUT"
+
+# We fall back on wget if needed (because it's less powerful than curl)
+WGET_CMD="wget --tries 1 --connect-timeout $TIMEOUT -O -"
+
+
 # Non-blocked ports
 PASS=()
 # Blocked ports
@@ -87,11 +94,11 @@ echo
 if command -v curl >/dev/null 2>&1
 then
     BACKEND=curl
-    GET_CMD="curl --connect-timeout $TIMEOUT"
+    GET_CMD="$CURL_CMD"
 elif command -v wget >/dev/null 2>&1
 then
     BACKEND=wget
-    GET_CMD="wget --tries 1 --connect-timeout $TIMEOUT -O -"
+    GET_CMD="$WGET_CMD"
     echo -e "$(red Warning): curl not found, falling back on wget..." 1>&2
     echo "Consider switching to curl if you want to distinguish between" 1>&2
     echo "'connection refused' and 'timeout'" 1>&2
