@@ -152,9 +152,11 @@ elif command -v wget >/dev/null 2>&1
 then
     BACKEND=wget
     GET_CMD="$WGET_CMD"
-    echo -e "$(red Warning): curl not found, falling back on wget..." 1>&2
+    [[ $FORCE_WGET = "yes" ]] \
+        && echo -e "$(red Warning): forcing use of wget instead of curl..." 1>&2 \
+        || echo -e "$(red Warning): curl not found, falling back on wget..." 1>&2
     echo "Consider switching to curl if you want to distinguish between" 1>&2
-    echo "'connection refused' and 'timeout'" 1>&2
+    echo "'closed' (connection refused) and 'timeout'" 1>&2
     echo 1>&2
 else
     echo "$(red Error): neither curl nor wget is available." 1>&2
