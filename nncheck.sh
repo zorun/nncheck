@@ -18,6 +18,10 @@ PORTS=(80 443 8080 # web
     6666 6667 6697 # irc
     21 20 # ftp
     5222 5223 5269 5280 # Jabber/XMPP
+    9418 # git
+    3690 # svn
+    8000 # hg
+    4155 # bazaar
     3724 # WoW
     554 # rtsp
     43 # whois
