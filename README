@@ -62,16 +62,3 @@ Net's responder, available at:
 There also is a text version at:
 
     http://responder.lqdn.fr:<port>/simple.php
-
-
-TODO
-====
-
-Bash is cool, but not everybody is able to run bash script
-(eg. Windows/iPhone/Android user)
-
-Having such a probing tool in Javascript would be fantastic, as it
-would allow any mobile device to test its data connection.
-
-I haven't found such a project yet, probably because it's not easy to
-initiate a TCP connection on an arbitrary port in JS.

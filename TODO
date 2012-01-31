@@ -1,0 +1,38 @@
+TODO
+====
+
+First of all, find a prettier name than "nncheck" :)
+
+Implementation
+--------------
+
+Bash is cool, but not everybody is able to run bash scripts
+(eg. Windows/iPhone/Android user)
+
+Having such a probing tool in Javascript would be fantastic, as it
+would allow any mobile device to test its data connection. However,
+cocoadaemon has tried to do this, but most browsers block outgoing
+connections on certains ports (eg. SMTP, …)
+
+The most reasonable alternative would be to write a python nncheck
+(cli and/or GUI). We're also planning an Android application.
+
+Collecting results
+------------------
+
+We are considering building a webapp that would collect results from
+such tools, see the
+[wiki page](https://www.laquadrature.net/wiki/Network_Neutrality_checkers_and_aggregation).
+
+More features?
+--------------
+
+To properly check for network neutrality violations, probing outgoing
+ports is not enough: other violations include transparent proxy, SMTP
+server spoofing from the ISP, or any other violation listed on
+[Respect My Net](http://respectmynet.eu).
+
+Want to help?
+=============
+
+Use IRC, #laquadrature on irc.freenode.net (ask for zorun or cocoadaemon).
