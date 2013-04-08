@@ -56,6 +56,7 @@ show_help() {
     echo "where valid options are:"
     echo "   -h|--help                         This help"
     echo "   -t <timeout>|--timeout <timeout>  Set the timeout in seconds (default: $TIMEOUT)"
+    echo "   -s <server>|--server <server>     Set the server to query (default: $SERVER)"
     echo "   --no-color                        Disable nice colored output"
     echo "   --force-wget                      Force using wget instead of curl"
     echo "                                     (not recommended)"
@@ -77,6 +78,7 @@ do
         --no-color) USE_COLOR="no";;
         --force-wget) FORCE_WGET="yes";;
         --timeout|-t) TIMEOUT="$2"; shift;;
+        --server|-s) SERVER="$2"; shift;;
         *) weird_option "$1"
     esac
     shift
@@ -147,7 +149,7 @@ timeout() {
 }
 
 
-echo "I'll now try to establish outgoing connections on various TCP ports!"
+echo "I'll now try to establish outgoing connections to $SERVER on various TCP ports!"
 echo
 
 
