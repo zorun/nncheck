@@ -26,6 +26,7 @@ PORTS=(80 443 8080 # web
     554 # rtsp
     43 # whois
     23 992 # telnet(s)
+    11371 # hkp (pgp)
 )
 
 # Timeout, in seconds, after which the port is considered as 'timeout'
