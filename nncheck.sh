@@ -29,8 +29,7 @@ PORTS=(80 443 8080 # web
     11371 # hkp (pgp)
 )
 
-# TODO: find another server, this one isn't reliable
-SERVER="responder.lqdn.fr"
+SERVER="neutral-http.aquilenet.fr"
 
 # Timeout, in seconds, after which the port is considered as 'timeout'
 TIMEOUT=3
@@ -98,9 +97,8 @@ PASS=()
 FAIL=()
 
 
-# Thanks to La Quadrature du Net for this awesome simple responder <3
 responder() {
-    echo "http://${SERVER}:${1}/simple.php"
+    echo "http://${SERVER}:${1}"
 }
 
 
