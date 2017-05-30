@@ -10,14 +10,17 @@
 # Don't mess with the comments, they are used when running the script
 PORTS=(80 443 8080 # web
     5060 5061 # sip
-    25 # smtp
+    25 587 # smtp(s)
     110 995 # pop3(s)
     143 220 993 # imap(s)
     22 # ssh
     53 # domain
-    6666 6667 6697 # irc
-    21 20 # ftp
+    194 6666 6667 6697 # irc
+    21 20 989 990 # ftp
     5222 5223 5269 5280 # Jabber/XMPP
+    631 # ipp
+    1194 # openvpn
+    119 563 # nntp(s)
     9418 # git
     3690 # svn
     8000 # hg
@@ -25,8 +28,11 @@ PORTS=(80 443 8080 # web
     3724 # WoW
     554 # rtsp
     43 # whois
+    873 # rsync
     23 992 # telnet(s)
+    389 636 # ldap(s)
     11371 # hkp (pgp)
+    500 # isakmp
 )
 
 SERVER="neutral-http.aquilenet.fr"
