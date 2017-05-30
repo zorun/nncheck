@@ -33,6 +33,9 @@ SERVER="neutral-http.aquilenet.fr"
 
 # Timeout, in seconds, after which the port is considered as 'timeout'
 TIMEOUT=3
+# Maximum time to wait, after which the port is considered as 'timeout'
+# This can happen when the TCP connection succeed but no HTTP reply is received.
+MAXTIME=10
 
 # Use colors by default?
 USE_COLOR="yes"
@@ -85,7 +88,7 @@ done
 
 
 # curl is used by default
-CURL_CMD="curl --connect-timeout $TIMEOUT"
+CURL_CMD="curl -o /dev/null --connect-timeout $TIMEOUT --max-time $MAXTIME"
 
 # We fall back on wget if needed (because it's less powerful than curl)
 WGET_CMD="wget --tries 1 --connect-timeout $TIMEOUT -O -"
