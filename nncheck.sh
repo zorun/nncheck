@@ -43,6 +43,8 @@ USE_COLOR="yes"
 # Force wget instead of curl? (bad idea)
 FORCE_WGET="no"
 
+# Force IPv4 by default (can be overriden)
+IPVERSION="-4"
 
 echo "This is NN check, the Network Neutrality checker."
 echo "Visit http://laquadrature.net if you don't know what that means."
@@ -57,6 +59,7 @@ show_help() {
     echo "usage: $0 [options]"
     echo "where valid options are:"
     echo "   -h|--help                         This help"
+    echo "   -6                                Force usage of IPv6 (only IPv4 is used by default)"
     echo "   -t <timeout>|--timeout <timeout>  Set the timeout in seconds (default: $TIMEOUT)"
     echo "   -s <server>|--server <server>     Set the server to query (default: $SERVER)"
     echo "   --no-color                        Disable nice colored output"
@@ -77,6 +80,7 @@ while [[ $1 ]]
 do
     case "$1" in
         --help|-h) show_help;;
+        -6) IPVERSION="-6";;
         --no-color) USE_COLOR="no";;
         --force-wget) FORCE_WGET="yes";;
         --timeout|-t) TIMEOUT="$2"; shift;;
@@ -88,10 +92,10 @@ done
 
 
 # curl is used by default
-CURL_CMD="curl -o /dev/null --connect-timeout $TIMEOUT --max-time $MAXTIME"
+CURL_CMD="curl ${IPVERSION} -o /dev/null --connect-timeout $TIMEOUT --max-time $MAXTIME"
 
 # We fall back on wget if needed (because it's less powerful than curl)
-WGET_CMD="wget --tries 1 --connect-timeout $TIMEOUT -O -"
+WGET_CMD="wget ${IPVERSION} --tries 1 --connect-timeout $TIMEOUT -O -"
 
 
 # Non-blocked ports
